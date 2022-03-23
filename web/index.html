@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Environmental Impact</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="ajp_style.css" />
+</head>
+
+<script type="text/javascript">
+    function showProject() {
+        src = document.getElementById('name');
+        dest = document.getElementById('p_name');
+        dest.innerText = "Project name: " + src.value;
+        document.getElementById('project_form').style.display = 'block';
+    }
+    function hideProject() {
+        document.getElementById('project_form').style.display = none;
+    }
+    function showImpact() {
+        src = document.getElementById('p_name');
+        dest = document.getElementById('i_name');
+        dest.innerText = src.innerText;
+        document.getElementById('impact').style.display = 'block';
+    }
+</script>
+<body>
+    <div class="banner" style="background-image: url('forest.png');">
+        <h1>Environmental Impact Estimator</h1>
+    </div>
+
+    <div class="testbox" action="">
+        <form onsubmit="return false">
+            <div class="item" >
+                <label for="name">Project Name<span>*</span></label>
+                <input id="name" type="text" name="name" required/>
+            </div>
+            <div class="item">
+                <label for="description">Project Description</label>
+                <textarea id="description" rows="3" name="description" required ></textarea>
+            </div>
+          <div class="item">
+            <p>Project Type</p>
+            <select>
+              <option selected value="" disabled selected></option>
+              <option value="BR" >Bridge</option>
+              <option value="BU">Building</option>
+              <option value="COM">Communications</option>
+              <option value="EN">Energy</option>
+              <option value="HOS">Hospital</option>
+              <option value="RAIL">Railways</option>
+              <option value="ROAD">Roads</option>
+              <option value="WAT">Waterworks</option>
+            </select>
+          </div>
+            <div class="btn-block">
+                <button type="submit" onclick="showProject()">
+                    Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="testbox" id="project_form" style="display:none">
+        <form onsubmit="return false">
+            <p id="p_name">Project Name: P_NAME</p>
+            <p>Project Type: Bridge</p>
+            <div class="item">
+                <label for="length">Length (feet)<span>*</span></label>
+                <input id="length" type="number" name="length" value="750"/>
+            </div>
+            <div class="item">
+                <label for="lanes">Number of Lanes <span>*</span></label>
+                <input id="lanes" type="number" name="lanes" value="3"/>
+            </div>
+            <div class="item">
+                <label for="width">Width (feet)<span>*</span></label>
+                <input id="width" type="number" name="width" value="60"/>
+            </div>
+            <div class="item">
+                <label for="surface">Surface Area (square feet)<span>*</span></label>
+                <input id="surface" type="number" name="surface" value="45000"/>
+            </div>
+            <div class="item">
+                <label for="ton_concrete">Tons of Concrete<span>*</span></label>
+                <input id="ton_concrete" type="number" name="ton_concrete" value="9500"/>
+            </div>
+            <div class="item">
+                <label for="ton_steel">Tons of Steel<span>*</span></label>
+                <input id="ton_steel" type="number" name="ton_steel" value="6300"/>
+            </div>
+        <div class="btn-block">
+                <button type="submit" onclick="showImpact()">
+                    Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="testbox" id="impact" style="display:none">
+        <form action="/">
+            <p id="i_name">Project Name: P_NAME</p>
+            <p>Project Type: Bridge</p>
+            <div class="item">
+                <label for="co2_1">CO2 impact - method 1 (tons)<span>*</span></label>
+                <input id="co2_1" type="number" name="co2_1" value="2591.8"/>
+            </div>
+            <div class="item">
+                <label for="co2_2">CO2 impact - method 2 (tons)<span>*</span></label>
+                <input id="co2_2" type="number" name="co2_2" value="3340.5"/>
+            </div>
+        </form>
+    </div>
+  </body>
+</html>

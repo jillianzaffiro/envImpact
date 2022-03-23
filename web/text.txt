@@ -1,0 +1,75 @@
+
+Text for description:
+
+This project adds a bridge from north Covington to south Cincinnati over the Ohio River.
+It will be 3 lanes, 2 dedicated lanes and a reversible center lane, with a span of 750 feet.
+
+
+Bridge Stats:
+CLAY-WADE BRIDGE
+http://bridgestunnels.com/bridges/ohio-river/clay-wade-bailey-bridge-us-42-us-127/
+https://bridgehunter.com/oh/hamilton/59B00049N/
+
+Dimensions
+Length of largest span: 674.7 ft.
+Total length: 2,208.4 ft. (0.4 mi.)
+Deck width: 42.6 ft.
+Deck Area = 94,060 sqr ft.
+
+https://www.builderssupply.net/concretecalculator
+18 inch thick
+1.88e+7 lbs = 9400 tons
+
+DECK:
+0.1 TON CONCRETE/SQR_FT
+
+
+https://www.goldengate.org/bridge/history-research/statistics-data/design-construction-stats/
+Length of suspension span including main span and side spans is 1.2 miles (6,450 ft or 1,966 m).
+Width of Bridge is 90 ft (27 m).
+Deck Area = 580,500 sqr ft
+
+Concrete: 389,000 cubic yards = 788,000 tons
+Steel: 83,000 tons
+Old concrete Deck weight = 166,000 Tons
+New steel deck weight = 154,000 Tons
+
+DECK:
+0.30 TON CONCRETE/SQR_FT
+0.14 TON STEEL/SQR_FT
+
+SAMPLE:
+Length = 750 ft
+width = 3 * 20 = 60 ft
+area = 45,000 sqr ft
+9,500 Ton concrete (Use 0.2)
+6,300 Ton Steel
+3160 Ton CO2 (added and used 0.2)
+
+AUDIO:
+Welcome to the Environmental Impact Estimator
+A project owner can use the estimator tool to get an early idea of the impact of various construction projects.
+The owner can simply enter the name and description of the project and optionally,
+they can provide some additional information such as the sector.
+
+The tool uses NLP techniques to process the inputs and extract information such as the project type and various parameters.
+
+[Press 'Submit' and scroll to the next section]
+
+As you can see here, the tool successfully discovered the type of project, the length and number of lanes.
+When the parameters can't be extracted from the description, the tool uses AI techniques to match the project to known projects
+and then uses those parameters.
+
+The final step uses these parameters as inputs to LCA tools as well as a rule-based system that uses
+calculations based on recommendations from the EPA, the Green Project initiative, as well as others.
+The results are aggregated before being shown to the user.
+
+[Press 'Submit' and scroll to the next section]
+
+Currently, only CO2 is calculated, but other factors can be included as the tool evolves and improves.
+
+Project owners now have a tool that allows them to gain additional insight into the environmental effects of different projects.
+
+
+
+

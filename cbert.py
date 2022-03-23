@@ -59,9 +59,9 @@ def run():
     bpp = BertPreprocessor(max_len=64)
     ajp_data = ProjectDataset(logger)
 
-    # show_bert(logger, bpp, ajp_data)
-    # train_bert(logger, bpp, ajp_data)
-    # show_bert_accuracy(logger, bpp, ajp_data, VERS)
+    show_bert(logger, bpp, ajp_data)
+    train_bert(logger, bpp, ajp_data, VERS)
+    show_bert_accuracy(logger, bpp, ajp_data, VERS)
     run_bert(logger, bpp, VERS)
 
 

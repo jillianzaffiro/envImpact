@@ -6,7 +6,7 @@ from os import path
 from DescriptionProcessing.ProjectDescription import ProjectDescription
 
 # Data from CG-LA regarding the American Jobs Plan (ajp)
-DATA_DIR = "/Users/rvanderwall/Documents/Trimble/Customers/CG_LA"
+DATA_DIR = "../service-ajp-environment-predictor"
 RAW_FILE = f"{DATA_DIR}/exp_projects.csv"
 DATA_FILE = f"{DATA_DIR}/project_clean.csv"
 

@@ -36,10 +36,10 @@ def convert_units(value, in_units, out_units):
     if in_units == out_units:
         return True, value
 
-    if out_units is 'feet':
+    if out_units == 'feet':
         return _convert_to_feet(value, in_units)
 
-    if out_units is 'mw':
+    if out_units == 'mw':
         return _convert_to_megawatt(value, in_units)
 
 

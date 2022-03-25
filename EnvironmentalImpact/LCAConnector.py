@@ -11,7 +11,7 @@ import olca
 class LCAConnector:
     def __init__(self, logger):
         self._lgr = logger
-        self.port = 8080
+        self.port = 8088
 
     def _set_up_client(self):
         # https://github.com/GreenDelta/olca-ipc.py

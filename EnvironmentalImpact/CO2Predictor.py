@@ -1,7 +1,7 @@
 from Common.Logger import Logger
 from Projects.GenericProject import IProject
 from Projects.Energy import Energy
-from Projects.Rules import ENERGY_TYPE, AREA
+from Projects.Rules import ENERGY_TYPE, AREA, POWER_OUTPUT, TONS_STEEL
 from Projects.Bridge import Bridge
 from Projects.Rules import TONS_CONCRETE, GALLONS_DIESEL, SURFACE_AREA
 from RulesEngine.RulesEngine import RulesEngine, Fact, Rule
@@ -27,12 +27,23 @@ class CO2Predictor:
     ]
 
     def co2_emissions_method_a(self, project: IProject):
-        self.lgr.info("Calculating using method a")
-        rules_engine = self._get_clear_rules_engine()
-        rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
-        rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, project.get_param_value(GALLONS_DIESEL)))
-        co2 = rules_engine.query("has_value", "co2")
-        return True, co2[0]
+        if isinstance(project, Bridge):
+            self.lgr.info("Calculating using method a")
+            rules_engine = self._get_clear_rules_engine()
+            rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
+            rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, project.get_param_value(GALLONS_DIESEL)))
+            co2 = rules_engine.query("has_value", "co2")
+            return True, co2[0]
+        elif isinstance(project, Energy):
+            self.lgr.info("Calculating using method a")
+            rules_engine = self._get_clear_rules_engine()
+            rules_engine.add_fact(Fact("has_value", POWER_OUTPUT, project.get_param_value(POWER_OUTPUT)))
+            rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
+            rules_engine.add_fact(Fact("has_value", TONS_STEEL, project.get_param_value(TONS_STEEL)))
+            rules_engine.add_fact(Fact("has_value", ENERGY_TYPE, project.get_param_value(ENERGY_TYPE)))
+            rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, 0))
+            co2 = rules_engine.query("has_value", "co2")
+            return True, co2[0]
 
     def co2_emissions_method_b(self, project: IProject):
         self.lgr.info("Calculating using method b")

@@ -1,4 +1,3 @@
-
 #
 #  Parameter names
 #
@@ -7,6 +6,7 @@ LANES = "lanes"
 SURFACE_TYPE = "surface_type"
 POWER_OUTPUT = "power_generated"
 ENERGY_TYPE = "energy_type"         # Solar, wind, oil, etc.
+AREA = "area"
 
 # Calculated Parameters
 WIDTH = "width"
@@ -16,6 +16,7 @@ TONS_BALLAST = "tons_ballast"
 TONS_STEEL = "tons_steel"
 TONS_ASPHALT = "tons_asphalt"
 GALLONS_DIESEL = "gallons_diesel"
+#AREA = "area"
 
 # Data keys
 PROJECT_TYPE = "project_type"

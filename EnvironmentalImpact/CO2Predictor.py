@@ -1,5 +1,7 @@
 from Common.Logger import Logger
 from Projects.GenericProject import IProject
+from Projects.Energy import Energy
+from Projects.Rules import ENERGY_TYPE, AREA
 from Projects.Bridge import Bridge
 from Projects.Rules import TONS_CONCRETE, GALLONS_DIESEL, SURFACE_AREA
 from RulesEngine.RulesEngine import RulesEngine, Fact, Rule
@@ -34,7 +36,16 @@ class CO2Predictor:
 
     def co2_emissions_method_b(self, project: IProject):
         self.lgr.info("Calculating using method b")
-        if isinstance(project, Bridge):
+
+        if isinstance(project, Energy):
+            area = project.get_param_value(AREA)
+            ok, results = self.lca.get_co2(area)
+            if ok:
+                co2 = results * ton_per_KG
+                return True, co2
+            else:
+                return False, results
+        elif isinstance(project, Bridge):
             area = project.get_param_value(SURFACE_AREA) * sq_meter_per_sq_foot
             ok, results = self.lca.get_co2(area)
             if ok:

@@ -47,6 +47,7 @@ class LCAConnector:
         # select the product system and LCIA method
         setup.impact_method = client.find(olca.ImpactMethod, 'EF 3.0 Method')
         setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
+        setup.product_system = client.find(olca.ProductSystem, 'Road')
 
         # amount is the amount of the functional unit (fu) of the system that
         # should be used in the calculation; unit, flow property, etc. of the fu
@@ -72,3 +73,4 @@ class LCAConnector:
 
         self._close(client, result)
         return co2
+

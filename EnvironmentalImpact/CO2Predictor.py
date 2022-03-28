@@ -27,14 +27,8 @@ class CO2Predictor:
     ]
 
     def co2_emissions_method_a(self, project: IProject):
-        if isinstance(project, Bridge):
-            self.lgr.info("Calculating using method a")
-            rules_engine = self._get_clear_rules_engine()
-            rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
-            rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, project.get_param_value(GALLONS_DIESEL)))
-            co2 = rules_engine.query("has_value", "co2")
-            return True, co2[0]
-        elif isinstance(project, Energy):
+
+        if isinstance(project, Energy):
             self.lgr.info("Calculating using method a")
             rules_engine = self._get_clear_rules_engine()
             rules_engine.add_fact(Fact("has_value", POWER_OUTPUT, project.get_param_value(POWER_OUTPUT)))
@@ -44,18 +38,29 @@ class CO2Predictor:
             rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, 0))
             co2 = rules_engine.query("has_value", "co2")
             return True, co2[0]
+        #elif isinstance(project, Bridge):
+        else:
+            self.lgr.info("Calculating using method a")
+            rules_engine = self._get_clear_rules_engine()
+            rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
+            rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, project.get_param_value(GALLONS_DIESEL)))
+            co2 = rules_engine.query("has_value", "co2")
+            return True, co2[0]
 
     def co2_emissions_method_b(self, project: IProject):
         self.lgr.info("Calculating using method b")
 
         if isinstance(project, Energy):
             area = project.get_param_value(AREA)
-            ok, results = self.lca.get_co2(area)
+            concrete = project.get_param_value(TONS_CONCRETE)
+            steel = project.get_param_value(TONS_STEEL)
+            ok, results = self.lca.get_co2(area, concrete, steel)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2
             else:
                 return False, results
+
         elif isinstance(project, Bridge):
             area = project.get_param_value(SURFACE_AREA) * sq_meter_per_sq_foot
             ok, results = self.lca.get_co2(area)

@@ -11,7 +11,7 @@ import olca
 class LCAConnector:
     def __init__(self, logger):
         self._lgr = logger
-        self.port = 8088
+        self.port = 8080
 
     def _set_up_client(self):
         # https://github.com/GreenDelta/olca-ipc.py
@@ -30,14 +30,14 @@ class LCAConnector:
         # not need it anymore
         client.dispose(result)
 
-    def get_co2(self, surface_area):
+    def get_co2(self, surface_area, concrete, steel):
         try:
-            co2 = self._get_co2(surface_area)
+            co2 = self._get_co2(surface_area, concrete, steel)
             return True, co2
         except Exception:
             return False, "Cannot connect to LCA system"
 
-    def _get_co2(self, surface_area):
+    def _get_co2(self, surface_area, concrete, steel):
         """
         :param surface_area: Size of bridge in square feet
         :return: CO2 emissions in KG
@@ -54,6 +54,10 @@ class LCAConnector:
         # can be also defined; by default openLCA will take the settings of the
         # reference flow of the product system
         setup.amount = surface_area
+
+        setup.amount = concrete
+        setup.amount = steel
+
 
         # calculate the result and export it to an Excel file
         result = client.calculate(setup)

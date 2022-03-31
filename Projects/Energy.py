@@ -33,13 +33,6 @@ ENERGY_DATA = {
         "yd3_concrete": 4360000,
         "kg_per_ton": 907.185,
         "steel_in_hoover_dam": 156300000,
-
-        # may not be needed
-        "steel_for_plant": 82545,  # kg -- these amounts could be off
-        "aluminum": 596,  # kg
-        "cast_iron": 14210,  # kg
-        "copper": 2544,  # kg
-        "plastic": 13508  # kg
     },
     RULES: [
         f"number_turbines = (({AREA} / sq_ft_in_acre ) / acres_per_MW) / MW_per_turbine",

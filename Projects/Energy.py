@@ -7,8 +7,20 @@ from Projects.ProjectTypes import ProjectType
 
 #
 # Energy Construction Rules
+# wind turbine materials:
+# https://www.usgs.gov/faqs/what-materials-are-used-make-wind-turbines#:~:text=According%20to%20a%20report%20from,aluminum%20(0%2D2%25)
+# https://www.forbes.com/sites/christopherhelman/2021/04/28/how-green-is-wind-power-really-a-new-report-tallies-up-the-carbon-cost-of-renewables/?sh=274892f73cd9
+# hydropower plant materials:
+# https://www.pnnl.gov/materials-science-hydropower
+# https://www.hydropower.org/factsheets/greenhouse-gas-emissions#:~:text=The%20IPCC%20states%20that%20hydropower,490%20gCO%E2%82%82%2Deq%2FkWh
+#
 # wind turbine calculation: https://sciencing.com/much-land-needed-wind-turbines-12304634.html
 # solar panel calculation: https://palmetto.com/learning-center/blog/how-much-roof-space-is-needed-for-solar-panels
+# coal calculation: https://www.mcginley.co.uk/news/how-much-of-each-energy-source-does-it-take-to-power-your-home/bp254/
+# hydropower calculation:
+# https://powerauthority.org/about-us/history-of-hoover#:~:text=Presently%2C%20Hoover%20Dam%20can%20produce,southern%20California%2C%20and%20southern%20Nevada
+# https://www.usbr.gov/lc/hooverdam/faqs/damfaqs.html#:~:text=How%20much%20concrete%20is%20in,dam%2C%20powerplant%20and%20appurtenant%20works
+# https://www.traditionaloven.com/building/masonry/concrete/convert-cubic-yard-cu-yd-concrete-to-kilogram-kg-of-concrete.html#:~:text=One%20cubic%20yard%20of%20concrete,equals%20to%201%2C839.92%20kg%20%2D%20kilo
 #
 ENERGY_DATA = {
     PROJECT_TYPE: ProjectType.ENERGY.name.lower(),

@@ -11,7 +11,7 @@ import olca
 class LCAConnector:
     def __init__(self, logger):
         self._lgr = logger
-        self.port = 8088
+        self.port = 8080
 
     def _set_up_client(self):
         # https://github.com/GreenDelta/olca-ipc.py
@@ -47,6 +47,7 @@ class LCAConnector:
         # select the product system and LCIA method
         setup.impact_method = client.find(olca.ImpactMethod, 'EF 3.0 Method')
         setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
+        setup.product_system = client.find(olca.ProductSystem, 'Railway')
 
         # amount is the amount of the functional unit (fu) of the system that
         # should be used in the calculation; unit, flow property, etc. of the fu

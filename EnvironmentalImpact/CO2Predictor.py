@@ -1,7 +1,8 @@
 from Common.Logger import Logger
 from Projects.GenericProject import IProject
 from Projects.Bridge import Bridge
-from Projects.Rules import TONS_CONCRETE, GALLONS_DIESEL, SURFACE_AREA
+from Projects.Railway import Railway
+from Projects.Rules import TONS_CONCRETE, GALLONS_DIESEL, SURFACE_AREA, TONS_STEEL, TONS_BALLAST, TONS_TIMBER, LENGTH
 from RulesEngine.RulesEngine import RulesEngine, Fact, Rule
 from EnvironmentalImpact.ImpactConversions import tons_co2_per_ton_concrete, tons_co2_per_gallon_diesel
 from EnvironmentalImpact.UnitConversions import sq_meter_per_sq_foot, ton_per_KG
@@ -25,18 +26,47 @@ class CO2Predictor:
     ]
 
     def co2_emissions_method_a(self, project: IProject):
-        self.lgr.info("Calculating using method a")
-        rules_engine = self._get_clear_rules_engine()
-        rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
-        rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, project.get_param_value(GALLONS_DIESEL)))
-        co2 = rules_engine.query("has_value", "co2")
-        return True, co2[0]
+        if isinstance(project, Railway):
+            self.lgr.info("Calculating using method a")
+            rules_engine = self._get_clear_rules_engine()
+            rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
+            rules_engine.add_fact(Fact("has_value", TONS_STEEL, project.get_param_value(TONS_STEEL)))
+            rules_engine.add_fact(Fact("has_value", TONS_BALLAST, project.get_param_value(TONS_BALLAST)))
+            rules_engine.add_fact(Fact("has_value", TONS_TIMBER, project.get_param_value(TONS_TIMBER)))
+            rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, 0))
+            co2 = rules_engine.query("has_value", "co2")
+            return True, co2[0]
+        else:
+            self.lgr.info("Calculating using method a")
+            rules_engine = self._get_clear_rules_engine()
+            rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
+            rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, project.get_param_value(GALLONS_DIESEL)))
+            co2 = rules_engine.query("has_value", "co2")
+            return True, co2[0]
 
     def co2_emissions_method_b(self, project: IProject):
         self.lgr.info("Calculating using method b")
         if isinstance(project, Bridge):
             area = project.get_param_value(SURFACE_AREA) * sq_meter_per_sq_foot
             ok, results = self.lca.get_co2(area)
+            if ok:
+                co2 = results * ton_per_KG
+                return True, co2
+            else:
+                return False, results
+        elif isinstance(project, Railway):
+            length = project.get_param_value(LENGTH) * sq_meter_per_sq_foot
+            ok, results = self.lca.get_co2(length)
+            if ok:
+                co2 = results * ton_per_KG
+                return True, co2
+            else:
+                return False, results
+
+            concrete = project.get_param_value(TONS_CONCRETE)
+            steel = project.get_param_value(TONS_STEEL)
+            ballast = project.get_param_value(TONS_BALLAST)
+            ok, results = self.lca.get_co2(concrete)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2

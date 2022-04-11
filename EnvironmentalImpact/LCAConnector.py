@@ -37,7 +37,7 @@ class LCAConnector:
         except Exception:
             return False, "Cannot connect to LCA system"
 
-    def _get_co2(self, surface_area, concrete, steel):
+    def _get_co2(self, surface_area, type, output):
         """
         :param surface_area: Size of bridge in square feet
         :return: CO2 emissions in KG
@@ -55,8 +55,20 @@ class LCAConnector:
         # reference flow of the product system
         setup.amount = surface_area
 
-        setup.amount = concrete
-        setup.amount = steel
+
+
+        if type == "solar":
+            setup.amount = surface_area * 1.1
+        elif type == "nuclear":
+            setup.amount = surface_area * 1.15
+        elif type == "wind":
+            setup.amount = surface_area *1.2
+        elif type == "hydroelectric":
+            setup.amount = surface_area * 1.11
+        elif type == "coal":
+            setup.amount = surface_area
+
+
 
 
         # calculate the result and export it to an Excel file

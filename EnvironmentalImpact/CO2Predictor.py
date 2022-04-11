@@ -52,9 +52,9 @@ class CO2Predictor:
 
         if isinstance(project, Energy):
             area = project.get_param_value(AREA)
-            concrete = project.get_param_value(TONS_CONCRETE)
-            steel = project.get_param_value(TONS_STEEL)
-            ok, results = self.lca.get_co2(area, concrete, steel)
+            type = project.get_param_value(ENERGY_TYPE)
+            output = project.get_param_value(POWER_OUTPUT)
+            ok, results = self.lca.get_co2(area, type, output)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2

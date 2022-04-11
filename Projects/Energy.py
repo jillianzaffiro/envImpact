@@ -48,7 +48,7 @@ ENERGY_DATA = {
         f"g_uranium = {POWER_OUTPUT} / 1",
         f"kg_concrete = {POWER_OUTPUT} / lbs_per_ton * yd3_concrete * kg_to_yd3",
         f"{TONS_CONCRETE} = kg_concrete / kg_per_ton",
-        f"{TONS_STEEL} = steel_in_hoover_dam * {POWER_OUTPUT} / lbs_per_ton * lbs_per_ton",
+        f"{TONS_STEEL} = steel_in_hoover_dam * {POWER_OUTPUT}",
 
     ]
 }

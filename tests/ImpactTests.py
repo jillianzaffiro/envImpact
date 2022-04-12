@@ -1,5 +1,5 @@
 import unittest
-from ImpactPredictor import get_impact_predictor, ImpactPredictor, CO2Predictor
+from ImpactPredictor import get_impact_predictor, ImpactPredictor, CO2Predictor, MonteCarloSim
 from Projects.GenericProject import GenericProject
 from Projects.Bridge import Bridge
 from tests.Mocks import MockLCA, MockMC, MockLogger
@@ -8,21 +8,35 @@ from tests.Mocks import MockLCA, MockMC, MockLogger
 class TestCO2(unittest.TestCase):
     def setUp(self) -> None:
         lca = MockLCA()
-        mc = MockMC()
         self.lgr = MockLogger()
-        self.co2 = CO2Predictor(self.lgr, lca, mc)
+        self.co2 = CO2Predictor(self.lgr, lca)
 
     def test_can_instantiate_co2(self):
         # Arrange
         lca = MockLCA()
-        mc = MockMC()
         lgr = MockLogger()
 
         # Act
-        co2 = CO2Predictor(lgr, lca, mc)
+        co2 = CO2Predictor(lgr, lca)
 
         # Assert
         self.assertIsNotNone(co2)
+
+    def setUp_mc(self) -> None:
+        lcamc = MockMC()
+        self.lgr = MockLogger()
+        self.mc = MonteCarloSim(self.lgr, lcamc)
+
+    def test_can_instantiate_co2_mc(self):
+        # Arrange
+        lcamc = MockMC()
+        lgr = MockLogger()
+
+        # Act
+        mc = MonteCarloSim(lgr, lcamc)
+
+        # Assert
+        self.assertIsNotNone(mc)
 
     def test_can_calculate_from_concrete(self):
         # Arrange
@@ -118,10 +132,9 @@ class TestImpact(unittest.TestCase):
     def test_can_calculate_from_bridge(self):
         # Arrange
         lca = MockLCA()
-        mc = MockMC()
         lgr = MockLogger()
-        co2 = CO2Predictor(lgr, lca, mc)
-        ip = ImpactPredictor(lgr, co2)      # We need the mock LCA since openLCA does not run in CI
+        co2 = CO2Predictor(lgr, lca)
+        ip = ImpactPredictor(lgr, co2, None)      # We need the mock LCA since openLCA does not run in CI
         params = {"name": "Test Bridge", "length": 100, "lanes": 2}
         _, project = Bridge.from_json(lgr, params)
 
@@ -136,3 +149,25 @@ class TestImpact(unittest.TestCase):
         self.assertAlmostEqual(130.68, res_a, places=1)
         # 4800 ft^2 = 446 m^2 => 44600 kG => 49.17
         self.assertAlmostEqual(49.17, res_b, places=1)
+
+    # this will be a test for the monte carlo simulator - not fully fleshed out
+    # def test_can_calculate_from_bridge_mc(self):
+    #     # Arrange
+    #     lcamc = MockMC()
+    #     lgr = MockLogger()
+    #     mc = MonteCarloSim(lgr, lcamc)
+    #     ip = ImpactPredictor(lgr, None, mc)  # We need the mock LCA since openLCA does not run in CI
+    #     params = {"name": "Test Bridge", "length": 100, "lanes": 2}
+    #     _, project = Bridge.from_json(lgr, params)
+    #
+    #     # Act
+    #     ok_a, ok_b, res_a, res_b = ip.get_co2(project)
+    #
+    #     # Assert
+    #     self.assertTrue(ok_a)
+    #     self.assertTrue(ok_b)
+    #     # 100 ft * 2 lanes * 24 ft per lane = 4800 ft^2
+    #     # 926 tons concrete * 242 / 1000 = 130.68
+    #     self.assertAlmostEqual(130.68, res_a, places=1)
+    #     # 4800 ft^2 = 446 m^2 => 44600 kG => 49.17
+    #     self.assertAlmostEqual(49.17, res_b, places=1)

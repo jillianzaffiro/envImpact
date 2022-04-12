@@ -7,13 +7,13 @@ from Projects.Rules import TONS_CONCRETE, GALLONS_DIESEL, SURFACE_AREA
 from RulesEngine.RulesEngine import RulesEngine, Fact, Rule
 from EnvironmentalImpact.ImpactConversions import tons_co2_per_ton_concrete, tons_co2_per_gallon_diesel
 from EnvironmentalImpact.UnitConversions import sq_meter_per_sq_foot, ton_per_KG
-from EnvironmentalImpact.LCAConnector import LCAConnector
+from EnvironmentalImpact.LCAConnectorMC import LCAConnectorMC
 
 
-class CO2Predictor:
-    def __init__(self, logger: Logger, lca: LCAConnector):
+class MonteCarloSim:
+    def __init__(self, logger: Logger, mc: LCAConnectorMC):
         self.lgr = logger
-        self.lca = lca
+        self.mc = mc
 
     FACTS = {
         "tons_co2_per_ton_concrete": tons_co2_per_ton_concrete,
@@ -55,7 +55,7 @@ class CO2Predictor:
             concrete = project.get_param_value(TONS_CONCRETE)
             steel = project.get_param_value(TONS_STEEL)
             # issue: getting flow results back, but impact results are None for some reason
-            ok, results = self.lca.get_co2(area, concrete, steel)
+            ok, results = self.mc.get_co2(area, concrete, steel)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2

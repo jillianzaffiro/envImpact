@@ -1,8 +1,16 @@
 from Common.Logger import Logger
 from EnvironmentalImpact.LCAConnector import LCAConnector
+from EnvironmentalImpact.LCAConnectorMC import LCAConnectorMC
 from Projects.DescriptionParsing import DescriptionParser
 
 class MockLCA(LCAConnector):
+    def __init__(self):
+        pass
+
+    def get_co2(self, surface_area):
+        return True, 100.0 * surface_area
+
+class MockMC(LCAConnectorMC):
     def __init__(self):
         pass
 

@@ -2,11 +2,12 @@ from Common.Logger import Logger
 from Projects.GenericProject import IProject
 from EnvironmentalImpact.CO2Predictor import CO2Predictor
 from EnvironmentalImpact.LCAConnector import LCAConnector
-
+from EnvironmentalImpact.LCAConnectorMC import LCAConnectorMC
 
 def get_impact_predictor(logger: Logger):
     lca = LCAConnector(logger)
-    co2 = CO2Predictor(logger, lca)
+    mc = LCAConnectorMC(logger)
+    co2 = CO2Predictor(logger, lca, mc)
     ip = ImpactPredictor(logger, co2)
     return ip
 

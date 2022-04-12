@@ -2,22 +2,24 @@ import unittest
 from ImpactPredictor import get_impact_predictor, ImpactPredictor, CO2Predictor
 from Projects.GenericProject import GenericProject
 from Projects.Bridge import Bridge
-from tests.Mocks import MockLCA, MockLogger
+from tests.Mocks import MockLCA, MockMC, MockLogger
 
 
 class TestCO2(unittest.TestCase):
     def setUp(self) -> None:
         lca = MockLCA()
+        mc = MockMC()
         self.lgr = MockLogger()
-        self.co2 = CO2Predictor(self.lgr, lca)
+        self.co2 = CO2Predictor(self.lgr, lca, mc)
 
     def test_can_instantiate_co2(self):
         # Arrange
         lca = MockLCA()
+        mc = MockMC()
         lgr = MockLogger()
 
         # Act
-        co2 = CO2Predictor(lgr, lca)
+        co2 = CO2Predictor(lgr, lca, mc)
 
         # Assert
         self.assertIsNotNone(co2)
@@ -116,8 +118,9 @@ class TestImpact(unittest.TestCase):
     def test_can_calculate_from_bridge(self):
         # Arrange
         lca = MockLCA()
+        mc = MockMC()
         lgr = MockLogger()
-        co2 = CO2Predictor(lgr, lca)
+        co2 = CO2Predictor(lgr, lca, mc)
         ip = ImpactPredictor(lgr, co2)      # We need the mock LCA since openLCA does not run in CI
         params = {"name": "Test Bridge", "length": 100, "lanes": 2}
         _, project = Bridge.from_json(lgr, params)

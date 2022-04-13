@@ -63,13 +63,15 @@ class LCAConnectorMC:
         simulator = client.simulator(setup)
 
         # client.excel_export(result, 'result.xlsx')
+        co2_results = []
         for i in range(0,10):
             result = client.next_simulation(simulator)
             first_impact = result.impact_results[0]
             print('iteration %i: result for %s = %4.4f' %
                   (i, first_impact.impact_category.name, first_impact.value))
+            co2_results.append(first_impact)
 
-        # client.excel_export(simulator, 'simulation_result.xlsx')
+        client.excel_export(simulator, 'simulation_result.xlsx')
 
         # co2 = 0.0
         # for idx in range(len(result.impact_results)):
@@ -84,5 +86,5 @@ class LCAConnectorMC:
         # self._lgr.info(f"CO2: {co2:.2f} kg")
 
         self._close(client, simulator)
-        return simulator
+        return co2_results
         # return co2

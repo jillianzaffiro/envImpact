@@ -151,23 +151,23 @@ class TestImpact(unittest.TestCase):
         self.assertAlmostEqual(49.17, res_b, places=1)
 
     # this will be a test for the monte carlo simulator - not fully fleshed out
-    # def test_can_calculate_from_bridge_mc(self):
-    #     # Arrange
-    #     lcamc = MockMC()
-    #     lgr = MockLogger()
-    #     mc = MonteCarloSim(lgr, lcamc)
-    #     ip = ImpactPredictor(lgr, None, mc)  # We need the mock LCA since openLCA does not run in CI
-    #     params = {"name": "Test Bridge", "length": 100, "lanes": 2}
-    #     _, project = Bridge.from_json(lgr, params)
-    #
-    #     # Act
-    #     ok_a, ok_b, res_a, res_b = ip.get_co2(project)
-    #
-    #     # Assert
-    #     self.assertTrue(ok_a)
-    #     self.assertTrue(ok_b)
-    #     # 100 ft * 2 lanes * 24 ft per lane = 4800 ft^2
-    #     # 926 tons concrete * 242 / 1000 = 130.68
-    #     self.assertAlmostEqual(130.68, res_a, places=1)
-    #     # 4800 ft^2 = 446 m^2 => 44600 kG => 49.17
-    #     self.assertAlmostEqual(49.17, res_b, places=1)
+    def test_can_calculate_from_bridge_mc(self):
+        # Arrange
+        lcamc = MockMC()
+        lgr = MockLogger()
+        mc = MonteCarloSim(lgr, lcamc)
+        ip = ImpactPredictor(lgr, None, mc)  # We need the mock LCA since openLCA does not run in CI
+        params = {"name": "Test Bridge", "length": 100, "lanes": 2}
+        _, project = Bridge.from_json(lgr, params)
+
+        # Act
+        ok_a, ok_b, res_a, res_b = ip.get_co2(project)
+
+        # Assert
+        self.assertTrue(ok_a)
+        self.assertTrue(ok_b)
+        # 100 ft * 2 lanes * 24 ft per lane = 4800 ft^2
+        # 926 tons concrete * 242 / 1000 = 130.68
+        self.assertAlmostEqual(130.68, res_a, places=1)
+        # 4800 ft^2 = 446 m^2 => 44600 kG => 49.17
+        self.assertAlmostEqual(49.17, res_b, places=1)

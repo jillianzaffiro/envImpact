@@ -21,6 +21,10 @@ class ImpactPredictor:
         self._mc = mc
 
     def get_co2(self, project: IProject):
-        ok_a, co2_a = self._co2.co2_emissions_method_a(project)
-        ok_b, co2_b = self._co2.co2_emissions_method_b(project)
+        if self._co2 is not None:
+            ok_a, co2_a = self._co2.co2_emissions_method_a(project)
+            ok_b, co2_b = self._co2.co2_emissions_method_b(project)
+        else:
+            ok_a, co2_a = self._mc.co2_emissions_method_a(project)
+            ok_b, co2_b = self._mc.co2_emissions_method_b(project)
         return ok_a, ok_b, co2_a, co2_b

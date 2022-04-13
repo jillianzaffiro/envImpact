@@ -64,7 +64,7 @@ class MonteCarloSim:
 
         elif isinstance(project, Bridge):
             area = project.get_param_value(SURFACE_AREA) * sq_meter_per_sq_foot
-            ok, results = self.lca.get_co2(area)
+            ok, results = self.mc.get_co2(area)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2

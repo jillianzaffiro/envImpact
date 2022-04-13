@@ -70,6 +70,5 @@ class LCAConnector:
                 co2 += val
 
         self._lgr.info(f"CO2: {co2:.2f} kg")
-
         self._close(client, result)
         return co2

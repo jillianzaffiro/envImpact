@@ -48,7 +48,6 @@ class LCAConnector:
         setup.impact_method = client.find(olca.ImpactMethod, 'EF 3.0 Method')
         setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
         setup.product_system = client.find(olca.ProductSystem, 'Energy')
-        #setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
         setup.product_system = client.find(olca.ProductSystem, 'Road')
 
         # amount is the amount of the functional unit (fu) of the system that

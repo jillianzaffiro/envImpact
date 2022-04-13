@@ -1,4 +1,3 @@
-
 #
 #  Parameter names
 #
@@ -7,6 +6,7 @@ LANES = "lanes"
 SURFACE_TYPE = "surface_type"
 POWER_OUTPUT = "power_generated"
 ENERGY_TYPE = "energy_type"         # Solar, wind, oil, etc.
+AREA = "area"
 
 # Calculated Parameters
 WIDTH = "width"

@@ -82,7 +82,7 @@ class ProjectBuilderTests(unittest.TestCase):
         self.assertFalse(ok)
 
     @parameterized.expand([
-        ("Energy", Energy, ["power_generated", "energy_type"]),
+        ("Energy", Energy, ["power_generated", "energy_type", "area"]),
         ("Roads", Road, ['length', 'lanes', 'surface_type']),
         ("Bridges", Bridge, ['length', 'lanes']),
         ("Railways", Railway, ['length']),

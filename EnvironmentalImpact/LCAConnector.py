@@ -6,12 +6,12 @@ import olca
 #    Verify 'SimpleBridge' in Product systems
 #    Verify 'EF 3.0 Method' in 'Indicators and parameters' --> Impact assessment methods
 # Tools -> Developer tools "IPC Server"
-#    Choose port 8088
+#    Choose port 8080
 #
 class LCAConnector:
     def __init__(self, logger):
         self._lgr = logger
-        self.port = 8088
+        self.port = 8080
 
     def _set_up_client(self):
         # https://github.com/GreenDelta/olca-ipc.py
@@ -46,7 +46,7 @@ class LCAConnector:
 
         # select the product system and LCIA method
         setup.impact_method = client.find(olca.ImpactMethod, 'EF 3.0 Method')
-        setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
+        #setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
         setup.product_system = client.find(olca.ProductSystem, 'Road')
 
         # amount is the amount of the functional unit (fu) of the system that

@@ -65,9 +65,8 @@ class CO2Predictor:
 
         if isinstance(project, Energy):
             area = project.get_param_value(AREA)
-            concrete = project.get_param_value(TONS_CONCRETE)
-            steel = project.get_param_value(TONS_STEEL)
-            ok, results = self.lca.get_co2(area, concrete, steel)
+
+            ok, results = self.lca.get_co2(area, project)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2
@@ -76,7 +75,7 @@ class CO2Predictor:
 
         elif isinstance(project, Road):
             area = project.get_param_value(SURFACE_AREA)
-            ok, results = self.lca.get_co2(area)
+            ok, results = self.lca.get_co2(area, project)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2
@@ -85,7 +84,7 @@ class CO2Predictor:
 
         elif isinstance(project, Bridge):
             area = project.get_param_value(SURFACE_AREA) * sq_meter_per_sq_foot
-            ok, results = self.lca.get_co2(area)
+            ok, results = self.lca.get_co2(area, project)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2

@@ -6,7 +6,7 @@ class MockLCA(LCAConnector):
     def __init__(self):
         pass
 
-    def get_co2(self, surface_area):
+    def get_co2(self, surface_area, project):
         return True, 100.0 * surface_area
 
 

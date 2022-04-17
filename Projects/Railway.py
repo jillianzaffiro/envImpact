@@ -1,11 +1,10 @@
 import EnvironmentalImpact.ImpactConversions as cvt
 from EnvironmentalImpact.UnitConversions import FEET, SQR_FEET, TONS, ft_per_meter, kg_per_pound, ft_per_mile, ft_per_yard
 from Projects.IProject import IProject
-from Projects.Rules import REQUIRED_DESCRIPTORS, CALCULATED_DESCRIPTORS, FACTS, RULES, PROJECT_TYPE
+from Projects.Rules import REQUIRED_DESCRIPTORS, CALCULATED_DESCRIPTORS, FACTS, RULES, PROJECT_TYPE, TONS_TIMBER
 from Projects.Rules import LENGTH, LANES
 from Projects.Rules import WIDTH, TONS_CONCRETE, TONS_STEEL, TONS_BALLAST
 from Projects.ProjectTypes import ProjectType
-
 
 '''
 Railways:
@@ -61,15 +60,15 @@ RAILWAY_DATA = {
     ],
 
     CALCULATED_DESCRIPTORS: [
-        (TONS_STEEL, TONS), (TONS_CONCRETE, TONS), (TONS_BALLAST, TONS)
+        (TONS_STEEL, TONS), (TONS_CONCRETE, TONS), (TONS_BALLAST, TONS), (TONS_TIMBER, TONS)
     ],
 
     FACTS: {
         LENGTH: 1000,             # feet
         "track ballast" :  20.6,  # kg/m
         "track_weight": 50,       # 50 kg / meter
-        "concrete_weight_for_per_crosstie": 600, # lbs
-        "wood_weight_for_crosstie": 250,
+        "concrete_weight_for_per_crosstie": 600,  # lbs
+        "wood_weight_for_crosstie": 250,  # lbs
         "crosstie_per_mile": 2640,
         "ballast_pound_per_yard": 41.5,
         "ft_per_meter": ft_per_meter,
@@ -93,6 +92,7 @@ RAILWAY_DATA = {
         f"ballast_ton = ballast_pounds / pounds_per_ton",
         f"{TONS_CONCRETE} = concrete_weight / pounds_per_ton",
         f"{TONS_BALLAST} = ballast_ton",
+        f"{TONS_TIMBER} = number_of_crosstie * wood_weight_for_crosstie / pounds_per_ton",
     ]
 }
 
@@ -105,6 +105,7 @@ class Railway(IProject):
     @staticmethod
     def from_json(logger, json_dict):
         b = Railway(logger)
+        print(b)
         return b._build_from_json(json_dict)
 
     @staticmethod

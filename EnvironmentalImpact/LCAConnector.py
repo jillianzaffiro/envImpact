@@ -4,6 +4,7 @@ from Projects.Energy import Energy
 from Projects.Rules import ENERGY_TYPE, AREA, POWER_OUTPUT, TONS_STEEL
 from Projects.Bridge import Bridge
 from Projects.Road import Road
+from Projects.Railway import Railway
 
 # Start openLCA
 # Open the Construction DB
@@ -57,6 +58,8 @@ class LCAConnector:
             setup.product_system = client.find(olca.ProductSystem, 'Energy')
         elif isinstance(project, Road):
             setup.product_system = client.find(olca.ProductSystem, 'Road')
+        elif isinstance(project, Railway):
+            setup.product_system = client.find(olca.ProductSystem, 'Railway')
 
         # amount is the amount of the functional unit (fu) of the system that
         # should be used in the calculation; unit, flow property, etc. of the fu
@@ -81,6 +84,5 @@ class LCAConnector:
                 co2 += val
 
         self._lgr.info(f"CO2: {co2:.2f} kg")
-
         self._close(client, result)
         return co2

@@ -3,8 +3,11 @@ from Projects.GenericProject import IProject
 from Projects.Energy import Energy
 from Projects.Rules import ENERGY_TYPE, AREA, POWER_OUTPUT, TONS_STEEL
 from Projects.Bridge import Bridge
+from Projects.Railway import Railway
+from Projects.Energy import Energy
+from Projects.Rules import TONS_CONCRETE, GALLONS_DIESEL, SURFACE_AREA, TONS_STEEL, TONS_BALLAST, TONS_TIMBER, LENGTH, TONS_ASPHALT
 from Projects.Road import Road
-from Projects.Rules import TONS_CONCRETE, GALLONS_DIESEL, SURFACE_AREA, TONS_ASPHALT
+# from Projects.Rules import TONS_CONCRETE, GALLONS_DIESEL, SURFACE_AREA, TONS_ASPHALT
 from Projects.Rules import SURFACE_TYPE
 from RulesEngine.RulesEngine import RulesEngine, Fact, Rule
 from EnvironmentalImpact.ImpactConversions import tons_co2_per_ton_concrete, tons_co2_per_gallon_diesel
@@ -29,7 +32,6 @@ class CO2Predictor:
     ]
 
     def co2_emissions_method_a(self, project: IProject):
-
         if isinstance(project, Energy):
             self.lgr.info("Calculating using method a")
             rules_engine = self._get_clear_rules_engine()
@@ -37,6 +39,16 @@ class CO2Predictor:
             rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
             rules_engine.add_fact(Fact("has_value", TONS_STEEL, project.get_param_value(TONS_STEEL)))
             rules_engine.add_fact(Fact("has_value", ENERGY_TYPE, project.get_param_value(ENERGY_TYPE)))
+            rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, 0))
+            co2 = rules_engine.query("has_value", "co2")
+            return True, co2[0]
+        elif isinstance(project, Railway):
+            self.lgr.info("Calculating using method a")
+            rules_engine = self._get_clear_rules_engine()
+            rules_engine.add_fact(Fact("has_value", TONS_CONCRETE, project.get_param_value(TONS_CONCRETE)))
+            rules_engine.add_fact(Fact("has_value", TONS_STEEL, project.get_param_value(TONS_STEEL)))
+            rules_engine.add_fact(Fact("has_value", TONS_BALLAST, project.get_param_value(TONS_BALLAST)))
+            rules_engine.add_fact(Fact("has_value", TONS_TIMBER, project.get_param_value(TONS_TIMBER)))
             rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, 0))
             co2 = rules_engine.query("has_value", "co2")
             return True, co2[0]
@@ -65,7 +77,6 @@ class CO2Predictor:
 
         if isinstance(project, Energy):
             area = project.get_param_value(AREA)
-
             ok, results = self.lca.get_co2(area, project)
             if ok:
                 co2 = results * ton_per_KG
@@ -85,6 +96,15 @@ class CO2Predictor:
         elif isinstance(project, Bridge):
             area = project.get_param_value(SURFACE_AREA) * sq_meter_per_sq_foot
             ok, results = self.lca.get_co2(area, project)
+            if ok:
+                co2 = results * ton_per_KG
+                return True, co2
+            else:
+                return False, results
+
+        elif isinstance(project, Railway):
+            length = project.get_param_value(LENGTH) * sq_meter_per_sq_foot
+            ok, results = self.lca.get_co2(length, project)
             if ok:
                 co2 = results * ton_per_KG
                 return True, co2

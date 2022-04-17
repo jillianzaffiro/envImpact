@@ -1,12 +1,17 @@
 import olca
 from Projects.GenericProject import IProject
+from Projects.Energy import Energy
+from Projects.Rules import ENERGY_TYPE, AREA, POWER_OUTPUT, TONS_STEEL
+from Projects.Bridge import Bridge
+from Projects.Road import Road
+from Projects.Railway import Railway
 
 # Start openLCA
 # Open the Construction DB
 #    Verify 'SimpleBridge' in Product systems
 #    Verify 'EF 3.0 Method' in 'Indicators and parameters' --> Impact assessment methods
 # Tools -> Developer tools "IPC Server"
-#    Choose port 8088
+#    Choose port 8080
 #
 class LCAConnector:
     def __init__(self, logger):
@@ -46,11 +51,15 @@ class LCAConnector:
 
         # select the product system and LCIA method
 
-        #AYO THIS SHOULD BE UPDATED IN MAIN BUT ITS NOT HERE IDK WHY FIX IT IN THE MERGE I DON"T WANNA CODE IT AGAIN LMAO
         setup.impact_method = client.find(olca.ImpactMethod, 'EF 3.0 Method')
-        setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
-        setup.product_system = client.find(olca.ProductSystem, 'Railway')
-        setup.product_system = client.find(olca.ProductSystem, 'Energy')
+        if isinstance(project, Bridge):
+            setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
+        elif isinstance(project, Energy):
+            setup.product_system = client.find(olca.ProductSystem, 'Energy')
+        elif isinstance(project, Road):
+            setup.product_system = client.find(olca.ProductSystem, 'Road')
+        elif isinstance(project, Railway):
+            setup.product_system = client.find(olca.ProductSystem, 'Railway')
 
         # amount is the amount of the functional unit (fu) of the system that
         # should be used in the calculation; unit, flow property, etc. of the fu

@@ -1,5 +1,5 @@
 import olca
-
+from Projects.GenericProject import IProject
 
 # Start openLCA
 # Open the Construction DB
@@ -30,14 +30,14 @@ class LCAConnector:
         # not need it anymore
         client.dispose(result)
 
-    def get_co2(self, surface_area, concrete, steel):
+    def get_co2(self, surface_area, project: IProject):
         try:
-            co2 = self._get_co2(surface_area, concrete, steel)
+            co2 = self._get_co2(surface_area, project)
             return True, co2
         except Exception:
             return False, "Cannot connect to LCA system"
 
-    def _get_co2(self, surface_area, concrete, steel):
+    def _get_co2(self, surface_area, project: IProject):
         """
         :param surface_area: Size of bridge in square feet
         :return: CO2 emissions in KG
@@ -45,6 +45,8 @@ class LCAConnector:
         client, setup = self._set_up_client()
 
         # select the product system and LCIA method
+
+        #AYO THIS SHOULD BE UPDATED IN MAIN BUT ITS NOT HERE IDK WHY FIX IT IN THE MERGE I DON"T WANNA CODE IT AGAIN LMAO
         setup.impact_method = client.find(olca.ImpactMethod, 'EF 3.0 Method')
         setup.product_system = client.find(olca.ProductSystem, 'SimpleBridge')
         setup.product_system = client.find(olca.ProductSystem, 'Railway')
@@ -55,8 +57,7 @@ class LCAConnector:
         # can be also defined; by default openLCA will take the settings of the
         # reference flow of the product system
         setup.amount = surface_area
-        setup.amount = concrete
-        setup.amount = steel
+
 
 
         # calculate the result and export it to an Excel file

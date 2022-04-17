@@ -49,6 +49,9 @@ class CO2Predictor:
             rules_engine.add_fact(Fact("has_value", TONS_STEEL, project.get_param_value(TONS_STEEL)))
             rules_engine.add_fact(Fact("has_value", TONS_BALLAST, project.get_param_value(TONS_BALLAST)))
             rules_engine.add_fact(Fact("has_value", TONS_TIMBER, project.get_param_value(TONS_TIMBER)))
+            rules_engine.add_fact(Fact("has_value", GALLONS_DIESEL, 0))
+            co2 = rules_engine.query("has_value", "co2")
+            return True, co2[0]
         elif isinstance(project, Road):
             self.lgr.info("Calculating using method a")
             rules_engine = self._get_clear_rules_engine()
